@@ -1,7 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from post.models import Post
 
 
+def hello_view(request):
+    return HttpResponse("Hello_World")
 def main_view(request):
     return render(request, 'main.html')
 
