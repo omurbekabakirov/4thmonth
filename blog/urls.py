@@ -19,12 +19,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from django.urls import path
-from post.views import main_view, post_list_view, post_detail_view, hello_view
+from post.views import main_view, post_list_view, post_detail_view, hello_view, post_create_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main_view),
     path('post_lst/', post_list_view),
     path('posts/<int:post_id>/', post_detail_view),
-    path('hello/', hello_view)
+    path('hello/', hello_view),
+    path('posts/create/', post_create_view)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
