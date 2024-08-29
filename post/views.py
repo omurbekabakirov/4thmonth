@@ -1,13 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
-from post.forms import PostForm
+from django.db.models import Q
+from post.forms import PostForm, SearchForm
 from post.models import Post
-
-
-def hello_view(request):
-    return HttpResponse("Hello_World")
 
 
 def main_view(request):
@@ -17,7 +13,30 @@ def main_view(request):
 @login_required(login_url='post_lst')
 def post_list_view(request):
     posts = Post.objects.all()
-    return render(request, 'posts/post_list.html', {'posts': posts})
+    search = request.GET.get('search', None)
+    tag = request.GET.getlist('tags', None)
+    search_form = SearchForm(request.GET)
+    orderings = request.GET.getlist('orderings', None)
+
+    if search:
+        posts = posts.filter(Q(title__icontains=search) | Q(content__icontains=search))
+    if tag:
+        posts = posts.filter(tag__id__in=tag)
+    page = int(request.GET.get('page', 1))
+    limit = 5
+    max_pages = posts.count() / limit
+    if round(max_pages) < max_pages:
+        max_pages = round(max_pages) + 1
+    else:
+        max_pages = round(max_pages)
+    start = (page - 1) * limit
+    end = page * limit
+    posts = posts[start:end]
+    if orderings:
+        posts = posts.order_by(orderings)
+    context = {'posts': posts, 'search_form': search_form, 'max_pages': range(1, max_pages + 1)}
+
+    return render(request, 'posts/post_list.html', context=context)
 
 
 @login_required(login_url='post_detail')
@@ -45,6 +64,3 @@ def post_create_view(request):
             rating=rating,
             image=image)
         return redirect('/post_lst/')
-
-
-

@@ -1,9 +1,13 @@
 {% extends "main.html" %}
 {% load static %}
-<body>
+
 {% block content %}
+<from style="padding-left: 10px" action="" method="get">
+   {{search_form.as_p}}
+   <button class="btn btn-primary" type="submit">Search</button>
+</from>
 {% for post in posts %}
-<div style="margin-top: 80px">
+
 <div class="card" style="width: 18rem;">
   {% if post.image%}
   <img src="{{post.image.url}}" class="card-img-top" alt="...">
@@ -17,7 +21,9 @@
     <a href="/posts/{{post.id}}" class="btn btn-primary">Go to post</a>
   </div>
 </div>
-</div>
+
+{% endfor %}
+{% for page in max_pages %}
+<a class="btn btn-primary" href="/posts/?page=={{page}}">{{page}}</a>
 {% endfor %}
 {% endblock %}
-</body>
