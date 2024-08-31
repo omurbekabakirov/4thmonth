@@ -1,6 +1,6 @@
 from django import forms
 
-from post.models import Tags
+from post.models import Tags, Post
 
 
 class PostForm(forms.Form):
@@ -36,3 +36,9 @@ class SearchForm(forms.Form):
                                  required=False,
                                  widget=forms.Select(attrs={'class': 'form-control'})
                                  )
+
+
+class UpdatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'rating', 'image', 'content')

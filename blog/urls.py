@@ -22,8 +22,11 @@ from post.views import (
     main_view,
     post_list_view,
     post_detail_view,
-
-    post_create_view
+    post_create_view,
+    post_update_view,
+    PostListView,
+    PostDetailView,
+    PostCreateView,
 )
 from user import views
 
@@ -35,5 +38,11 @@ urlpatterns = [
     path('posts/create/', post_create_view, name='post_create'),
     path('user/register/', views.register_view, name='register_view'),
     path('user/login/', views.login_view),
-    path('user/logout/', views.logout_view, name='logout_view')
+    path('user/logout/', views.logout_view, name='logout_view'),
+    path('user/profile/', views.profile_view, name='profile_view'),
+    path('posts/<int:post_id>/update', post_update_view, name='post_update'),
+    path('posts2/', PostListView.as_view(), name='plv'),
+    path('postsdetai2/', PostDetailView.as_view(), name='pdv'),
+    path('posts22/', PostCreateView.as_view(), name='pcv'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,9 +1,18 @@
-{% extends "main.html" %}
+{% extends 'main.html' %}
 {% load static %}
 {% block content %}
-<h1>
-    POST {{post.id}} PAGE
-</h1>
+<h1>PROFILE</h1>
+
+<div class="container">
+  <img src="/media/{{profile_pics.url}}">
+  <h2>{{user.username}}</h2>
+  <h3>{{user.first_name}}</h3>
+  <h3>{{user.last_name}}</h3>
+  <h3>{{user.email}}</h3>
+
+</div>
+{% for post in posts %}
+
 <div class="card" style="width: 18rem;">
   {% if post.image%}
   <img src="{{post.image.url}}" class="card-img-top" alt="...">
@@ -14,9 +23,9 @@
     <h5 class="card-title">{{post.title}}</h5>
     <p class="card-text">{{post.content}}</p>
     <p class="card-text">{{post.rating}}</p>
-    {% if post.author== request.user%}
-    <a href="posts/{post.id}/update" class="btn btn-primary">Edit post</a>
-    {%endif%}
+    <a href="/posts/{{post.id}}" class="btn btn-primary">Go to post</a>
   </div>
 </div>
+
+{% endfor %}
 {% endblock %}
